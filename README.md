@@ -1,0 +1,1 @@
+En este repositorio estará el juego de snake con html, css y js

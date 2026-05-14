@@ -1,0 +1,235 @@
+:root {
+  --ink: #122016;
+  --panel: #1b2329;
+  --metal: #64717a;
+  --metal-dark: #2d363b;
+  --screen: #b5d46d;
+  --screen-dark: #769246;
+  --snake: #1f3f22;
+  --food: #e2514a;
+  --glow: #9ef06d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: #f5f7ed;
+  background:
+    radial-gradient(circle at top left, rgba(158, 240, 109, 0.2), transparent 28rem),
+    linear-gradient(135deg, #11191f 0%, #29343a 48%, #0c1216 100%);
+}
+
+.game-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px 14px;
+}
+
+.phone-frame {
+  width: min(94vw, 520px);
+  padding: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 34px 34px 52px 52px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent 22%),
+    linear-gradient(180deg, #73808a 0%, #38434a 42%, #1d252a 100%);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42), inset 0 0 28px rgba(255, 255, 255, 0.12);
+}
+
+.speaker {
+  width: 118px;
+  height: 12px;
+  margin: 0 auto 18px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(90deg, #111 0 8px, #343d42 8px 14px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.brand {
+  color: #c9f29e;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  font-weight: 900;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.status-light {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  border-radius: 50%;
+  background: var(--glow);
+  box-shadow: 0 0 20px var(--glow);
+}
+
+.lcd-screen {
+  padding: 14px;
+  border: 8px solid #20282d;
+  border-radius: 18px;
+  background: #101717;
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.8);
+}
+
+.screen-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-family: "Courier New", monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.canvas-wrap {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid var(--screen-dark);
+  border-radius: 8px;
+  background: var(--screen);
+  aspect-ratio: 1;
+}
+
+#gameCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.game-message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: var(--ink);
+  font-family: "Courier New", monospace;
+  font-size: clamp(1rem, 5vw, 1.5rem);
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgba(181, 212, 109, 0.72);
+}
+
+.game-message.hidden {
+  display: none;
+}
+
+.controls-panel {
+  display: grid;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.btn {
+  min-height: 44px;
+  border-radius: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.d-pad {
+  width: 190px;
+  height: 190px;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pad-btn {
+  border: 0;
+  border-radius: 14px;
+  color: #eef7e7;
+  font-size: 1.35rem;
+  font-weight: 900;
+  background: linear-gradient(180deg, #48545c, #20282d);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.18), 0 7px 0 #11191d;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
+}
+
+.pad-btn:active,
+.pad-btn.is-active {
+  transform: translateY(5px);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.14), 0 2px 0 #11191d;
+  filter: brightness(1.15);
+}
+
+.pad-btn.up {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.pad-btn.left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.pad-btn.center {
+  grid-column: 2;
+  grid-row: 2;
+  color: #182024;
+  background: linear-gradient(180deg, #a7b3b8, #626e75);
+  cursor: default;
+}
+
+.pad-btn.right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.pad-btn.down {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.hint {
+  color: #dce8d2;
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+@media (max-width: 430px) {
+  .phone-frame {
+    padding: 18px;
+    border-radius: 26px 26px 40px 40px;
+  }
+
+  .lcd-screen {
+    padding: 10px;
+    border-width: 6px;
+  }
+
+  .screen-topbar {
+    font-size: 0.82rem;
+  }
+
+  .d-pad {
+    width: 160px;
+    height: 160px;
+  }
+}

@@ -1,10 +1,16 @@
-# Snake Retro Nokia
+# Puma Speedcat Editorial Landing
 
-Videojuego clasico de Snake hecho con HTML, CSS, JavaScript y Bootstrap.
+Fashion-editorial landing page for Puma Speedcat women's sneakers, built with React, Vite, Tailwind CSS, and Framer Motion.
 
-## Como jugar
+## Run locally
 
-1. Abre `index.html` en tu navegador.
-2. Presiona **Iniciar**.
-3. Mueve la serpiente con las flechas del teclado, WASD o los botones del cursor en pantalla.
-4. Presiona la barra espaciadora o el boton **Pausa** para pausar.
+Install Node.js first if it is not available on your computer.
+
+```bash
+npm install
+npm run dev
+```
+
+Then open the local URL shown by Vite.
+
+If you open `index.html` directly, a simple static preview appears, but the full animated React version needs Vite.

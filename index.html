@@ -1,58 +1,455 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snake Retro Nokia</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main class="game-shell">
-    <section class="phone-frame" aria-label="Videojuego Snake estilo Nokia">
-      <div class="speaker"></div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Puma Speedcat fashion editorial landing page inspired by moodboards, magazine spreads, and Y2K street style."
+    />
+    <title>Puma Speedcat Editorial</title>
+    <style>
+      body {
+        margin: 0;
+        background: #f7efe3;
+        color: #35221c;
+        font-family: Georgia, "Times New Roman", serif;
+      }
 
-      <header class="game-header">
-        <div>
-          <p class="brand mb-0">NOKIA SNAKE</p>
-          <h1>Snake Retro</h1>
-        </div>
-        <div class="status-light" aria-hidden="true"></div>
-      </header>
+      .fallback {
+        min-height: 100vh;
+        overflow: hidden;
+        padding: 28px;
+        position: relative;
+      }
 
-      <section class="lcd-screen">
-        <div class="screen-topbar">
-          <span>Puntaje: <strong id="score">0</strong></span>
-          <span>Mejor: <strong id="bestScore">0</strong></span>
-        </div>
+      .fallback::before {
+        content: "SPEED";
+        position: absolute;
+        left: 50%;
+        top: 120px;
+        transform: translateX(-50%);
+        color: rgba(237, 182, 201, 0.45);
+        font-size: 22vw;
+        line-height: 1;
+        z-index: 0;
+      }
 
-        <div class="canvas-wrap">
-          <canvas id="gameCanvas" width="420" height="420" aria-label="Tablero de Snake"></canvas>
-          <div id="message" class="game-message">
-            <span>Presiona iniciar</span>
+      .fallback-nav {
+        border-bottom: 1px solid rgba(53, 34, 28, 0.18);
+        display: flex;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        justify-content: space-between;
+        letter-spacing: 0.25em;
+        padding-bottom: 16px;
+        position: relative;
+        text-transform: uppercase;
+        z-index: 2;
+      }
+
+      .fallback-grid {
+        align-items: center;
+        display: grid;
+        gap: 42px;
+        grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+        margin: 0 auto;
+        max-width: 1180px;
+        min-height: calc(100vh - 90px);
+        position: relative;
+        z-index: 2;
+      }
+
+      .fallback h1 {
+        font-size: clamp(72px, 13vw, 180px);
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 0.74;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .fallback p {
+        color: rgba(90, 59, 50, 0.82);
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        line-height: 1.7;
+        max-width: 560px;
+      }
+
+      .fallback-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      .fallback-badges span {
+        border: 1px solid rgba(53, 34, 28, 0.28);
+        border-radius: 999px;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        padding: 10px 16px;
+        text-transform: uppercase;
+      }
+
+      .fallback-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+      }
+
+      .fallback-buttons a {
+        border-radius: 999px;
+        color: inherit;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        padding: 14px 18px;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .fallback-buttons a:first-child {
+        background: #35221c;
+        color: #f7efe3;
+      }
+
+      .fallback-buttons a:last-child {
+        background: #fffaf1;
+        border: 1px solid rgba(53, 34, 28, 0.2);
+      }
+
+      .fallback-section {
+        background: #fffaf1;
+        border-top: 1px solid rgba(53, 34, 28, 0.14);
+        padding: 72px 28px;
+      }
+
+      .fallback-section.pink {
+        background: #edb6c9;
+      }
+
+      .fallback-section-inner {
+        margin: 0 auto;
+        max-width: 1180px;
+      }
+
+      .fallback-section h2 {
+        font-size: clamp(48px, 8vw, 110px);
+        font-weight: 600;
+        line-height: 0.85;
+        margin: 0 0 26px;
+      }
+
+      .fallback-card-grid {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      }
+
+      .fallback-mini-card {
+        background: #f7efe3;
+        border: 1px solid rgba(53, 34, 28, 0.12);
+        border-radius: 22px;
+        box-shadow: 0 18px 48px rgba(53, 34, 28, 0.08);
+        overflow: hidden;
+        padding: 12px;
+        position: relative;
+      }
+
+      .fallback-logo-mark {
+        background: rgba(255, 250, 241, 0.86);
+        border: 1px solid rgba(53, 34, 28, 0.18);
+        border-radius: 999px;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        font-weight: 800;
+        left: 24px;
+        letter-spacing: 0.18em;
+        padding: 8px 10px;
+        position: absolute;
+        text-transform: uppercase;
+        top: 24px;
+      }
+
+      .fallback-mini-card img {
+        border-radius: 16px;
+        display: block;
+        height: 150px;
+        object-fit: contain;
+        background: #fffaf1;
+        width: 100%;
+      }
+
+      .fallback-mini-card h3 {
+        font-size: 28px;
+        font-weight: 500;
+        margin: 14px 0 6px;
+      }
+
+      .fallback-mini-card p {
+        font-size: 13px;
+        letter-spacing: 0.13em;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .fallback-footer {
+        background: #fffaf1;
+        border-top: 1px solid rgba(53, 34, 28, 0.14);
+        display: grid;
+        gap: 28px;
+        grid-template-columns: 1fr 1.3fr 1fr;
+        padding: 42px 28px;
+      }
+
+      .fallback-footer h2 {
+        font-size: 34px;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      .fallback-socials {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .fallback-socials a {
+        border: 1px solid rgba(53, 34, 28, 0.18);
+        border-radius: 999px;
+        color: #35221c;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        padding: 11px 14px;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .fallback-credit {
+        background: #f7efe3;
+        border: 1px solid rgba(53, 34, 28, 0.14);
+        border-radius: 18px;
+        padding: 18px;
+      }
+
+      .fallback-credit p {
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        line-height: 1.4;
+        margin: 0 0 10px;
+        text-transform: uppercase;
+      }
+
+      .fallback-credit strong {
+        display: block;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 1.1;
+      }
+
+      .fallback-collage {
+        min-height: 620px;
+        position: relative;
+      }
+
+      .fallback-card {
+        background: #fffaf1;
+        border: 9px solid #fffaf1;
+        border-radius: 24px;
+        box-shadow: 0 28px 80px rgba(53, 34, 28, 0.18);
+        overflow: hidden;
+        position: absolute;
+      }
+
+      .fallback-card img {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .fallback-card.one {
+        height: 500px;
+        right: 0;
+        top: 0;
+        transform: rotate(2deg);
+        width: min(82vw, 470px);
+      }
+
+      .fallback-card.two {
+        bottom: 0;
+        height: 500px;
+        left: 0;
+        transform: rotate(-3deg);
+        width: min(80vw, 420px);
+      }
+
+      .fallback-note {
+        background: #fff6a8;
+        border-radius: 8px;
+        box-shadow: 0 12px 28px rgba(53, 34, 28, 0.13);
+        font-family: "Segoe Script", cursive;
+        font-size: 24px;
+        padding: 16px 20px;
+        position: absolute;
+        right: 20px;
+        top: 52%;
+        transform: rotate(3deg);
+        z-index: 5;
+      }
+
+      @media (max-width: 860px) {
+        .fallback {
+          padding: 20px;
+        }
+
+        .fallback-nav span:nth-child(2) {
+          display: none;
+        }
+
+        .fallback-grid {
+          grid-template-columns: 1fr;
+          padding-top: 52px;
+        }
+
+        .fallback-collage {
+          min-height: 520px;
+        }
+
+        .fallback-card.one,
+        .fallback-card.two {
+          height: 390px;
+          width: min(86vw, 390px);
+        }
+
+        .fallback-footer {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <main class="fallback">
+        <nav class="fallback-nav">
+          <span>Speedcat dossier</span>
+          <span>Puma campaign study</span>
+          <span>SS / 26</span>
+        </nav>
+        <section class="fallback-grid">
+          <div>
+            <div class="fallback-badges">
+              <span>motorsport made soft</span>
+              <span>y2k revival</span>
+            </div>
+            <h1>Puma<br />Speedcat</h1>
+            <p>
+              The racing sneaker turned fashion icon. Built for pit lanes, restyled for mini skirts,
+              baggy denim, gloss lips, tote bags, and city walks.
+            </p>
+            <div class="fallback-buttons">
+              <a href="#featured-fallback">Shop Now</a>
+              <a href="#colorways-fallback">Explore Colors</a>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <section class="controls-panel">
-        <div class="actions d-flex gap-2">
-          <button id="startBtn" class="btn btn-success flex-fill" type="button">Iniciar</button>
-          <button id="pauseBtn" class="btn btn-outline-light flex-fill" type="button">Pausa</button>
-        </div>
-
-        <div class="d-pad" aria-label="Controles direccionales">
-          <button class="pad-btn up" type="button" data-direction="up" aria-label="Mover arriba">&uarr;</button>
-          <button class="pad-btn left" type="button" data-direction="left" aria-label="Mover izquierda">&larr;</button>
-          <button class="pad-btn center" type="button" aria-label="Boton decorativo">&bull;</button>
-          <button class="pad-btn right" type="button" data-direction="right" aria-label="Mover derecha">&rarr;</button>
-          <button class="pad-btn down" type="button" data-direction="down" aria-label="Mover abajo">&darr;</button>
-        </div>
-
-        <p class="hint mb-0">Usa las flechas, WASD o los botones del cursor.</p>
-      </section>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
-</body>
+          <div class="fallback-collage">
+            <div class="fallback-card one">
+              <img src="public/assets/speedcat-colorways.png" alt="Puma Speedcat colorway collage" />
+            </div>
+            <div class="fallback-card two">
+              <img src="public/assets/samba-editorial-reference.webp" alt="Fashion editorial poster reference" />
+            </div>
+            <div class="fallback-note">racing ballet flat energy</div>
+          </div>
+        </section>
+        <section id="colorways-fallback" class="fallback-section pink">
+          <div class="fallback-section-inner">
+            <h2>Trending colorways</h2>
+            <div class="fallback-card-grid">
+              <article class="fallback-mini-card">
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/405355/08/sv01/fnd/PNA/fmt/png/Speedcat-Premium-Women's-Sneakers" alt="Pink Puma Speedcat" />
+                <h3>Premium</h3>
+                <p>poised pink</p>
+              </article>
+              <article class="fallback-mini-card">
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/406881/02/sv01/fnd/PNA/fmt/png/Speedcat-Silver-Women's-Sneakers" alt="Silver Puma Speedcat" />
+                <h3>Silver</h3>
+                <p>alpine snow</p>
+              </article>
+              <article class="fallback-mini-card">
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/401287/06/sv01/fnd/PNA/fmt/png/Speedcat-Ballet-Suede-Women's-Sneakers" alt="Black Puma Speedcat Ballet" />
+                <h3>Ballet</h3>
+                <p>black white</p>
+              </article>
+              <article class="fallback-mini-card">
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/406249/01/sv01/fnd/PNA/fmt/png/Speedcat-Venus-Women's-Sneakers" alt="Puma Speedcat Venus" />
+                <h3>Venus</h3>
+                <p>pearl pink</p>
+              </article>
+            </div>
+          </div>
+        </section>
+        <section id="featured-fallback" class="fallback-section">
+          <div class="fallback-section-inner">
+            <h2>Featured products</h2>
+            <div class="fallback-card-grid">
+              <article class="fallback-mini-card">
+                <span class="fallback-logo-mark">PUMA</span>
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/405355/08/sv01/fnd/PNA/fmt/png/Speedcat-Premium-Women's-Sneakers" alt="Blush Drift Puma Speedcat" />
+                <h3>Blush Drift</h3>
+                <p>shop now</p>
+              </article>
+              <article class="fallback-mini-card">
+                <span class="fallback-logo-mark">PUMA</span>
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/406881/02/sv01/fnd/PNA/fmt/png/Speedcat-Silver-Women's-Sneakers" alt="Milk Chrome Puma Speedcat" />
+                <h3>Milk Chrome</h3>
+                <p>shop now</p>
+              </article>
+              <article class="fallback-mini-card">
+                <span class="fallback-logo-mark">PUMA</span>
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/401287/06/sv01/fnd/PNA/fmt/png/Speedcat-Ballet-Suede-Women's-Sneakers" alt="Cocoa Sprint Puma Speedcat" />
+                <h3>Cocoa Sprint</h3>
+                <p>shop now</p>
+              </article>
+              <article class="fallback-mini-card">
+                <span class="fallback-logo-mark">PUMA</span>
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_900,h_900/global/405355/02/sv01/fnd/PNA/fmt/png/Speedcat-Premium-Women's-Sneakers" alt="Blue Lap Puma Speedcat" />
+                <h3>Blue Lap</h3>
+                <p>shop now</p>
+              </article>
+            </div>
+          </div>
+        </section>
+        <footer class="fallback-footer">
+          <div>
+            <h2>Puma Speedcat</h2>
+            <p>fashion editorial landing</p>
+          </div>
+          <div>
+            <p>Puma socials</p>
+            <div class="fallback-socials">
+              <a href="https://www.instagram.com/puma/" target="_blank">Instagram</a>
+              <a href="https://www.youtube.com/puma" target="_blank">YouTube</a>
+              <a href="https://x.com/PUMA" target="_blank">X</a>
+              <a href="https://www.pinterest.com/puma/" target="_blank">Pinterest</a>
+              <a href="https://www.facebook.com/PUMA/" target="_blank">Facebook</a>
+            </div>
+          </div>
+          <div class="fallback-credit">
+            <p>Práctica de GitHub y Netlify</p>
+            <strong>Nathalie Brenda Ramirez Olivera</strong>
+          </div>
+        </footer>
+      </main>
+    </div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
